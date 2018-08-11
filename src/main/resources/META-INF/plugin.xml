@@ -1,0 +1,19 @@
+<idea-plugin>
+    <id>com.nick.marino.tab-out</id>
+    <name>Tab-Out</name>
+
+
+    <description><![CDATA[
+        Implementation of Eclipse tab-out feature.
+    ]]></description>
+
+    <depends>com.intellij.modules.lang</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+        <editorActionHandler action="EditorTab" implementationClass="TabOutActionHandler" order="first"/>
+
+    </extensions>
+    <actions>
+    </actions>
+</idea-plugin>
