@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Arrays;
 
 /**
- * Class for overriding {@code EditorTab} actions to behave like Eclipse tab-out feature.
+ * Class for overriding {@code EditorTab} actions to provide Eclipse-style tab-out feature.
  *
  * @author Nick Marino
  */
@@ -16,7 +16,7 @@ public class TabOutActionHandler extends EditorWriteActionHandler {
     /**
      * Array of characters to tab-over.
      */
-    private final Character[] TAB_OVER_TARGETS = new Character[] {
+    private static final Character[] TAB_OVER_TARGETS = new Character[] {
             '}', ')', '>', '"', ';'
     };
 
@@ -36,16 +36,38 @@ public class TabOutActionHandler extends EditorWriteActionHandler {
 
     @Override
     public void doExecute(@NotNull Editor editor, @Nullable Caret caret, DataContext dataContext) {
+        Caret currentCaret = editor.getCaretModel().getCurrentCaret();
+        int caretOffset = currentCaret.getOffset();
         CharSequence editorText = editor.getDocument().getCharsSequence();
-        int caretOffset = editor.getCaretModel().getOffset();
         char nextCharacter = editorText.charAt(caretOffset);
 
-        // If the character at the caret is one of our TAB_OVER_TARGETS, move the caret to the next
-        // column; else, delegate the call to the original EditorWriteActionHandler.
-        if (Arrays.asList(TAB_OVER_TARGETS).contains(nextCharacter)) {
-            editor.getCaretModel().moveToOffset(caretOffset + 1);
+        // If the character at the caret is one of the TAB_OVER_TARGETS, move the caret to the next
+        // column; else, delegate the call to the original EditorWriteActionHandler got restore
+        // regular tab key functionality.
+        if (isTabOverTarget(nextCharacter)) {
+            moveCaret(currentCaret, caretOffset + 1);
         } else {
             originalEditorWriteActionHandler.doExecute(editor, caret, dataContext);
         }
+    }
+
+    /**
+     * Determines if {@code character} is a tab-over target.
+     *
+     * @param character the character to evaluate.
+     * @return {@code true} if {@code character} is a tab-over target; {@code false} if it is not.
+     */
+    private static boolean isTabOverTarget(char character) {
+        return Arrays.asList(TAB_OVER_TARGETS).contains(character);
+    }
+
+    /**
+     * Moves the {@code currentCaret} to the specified {@code offset}.
+     *
+     * @param currentCaret the current {@link Caret}.
+     * @param offset the location to which to move the {@code currentCaret}.
+     */
+    private static void moveCaret(Caret currentCaret, int offset) {
+        currentCaret.moveToOffset(offset)
     }
 }
