@@ -68,6 +68,6 @@ public class TabOutActionHandler extends EditorWriteActionHandler {
      * @param offset the location to which to move the {@code currentCaret}.
      */
     private static void moveCaret(Caret currentCaret, int offset) {
-        currentCaret.moveToOffset(offset)
+        currentCaret.moveToOffset(offset);
     }
 }
