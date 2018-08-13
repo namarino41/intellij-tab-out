@@ -36,8 +36,8 @@ public class TabOutActionHandler extends EditorWriteActionHandler {
 
     @Override
     public void doExecute(@NotNull Editor editor, @Nullable Caret caret, DataContext dataContext) {
-        Caret currentCaret = editor.getCaretModel().getCurrentCaret();
-        int caretOffset = currentCaret.getOffset();
+        Caret editorCaret = editor.getCaretModel().getCurrentCaret();
+        int caretOffset = editorCaret.getOffset();
         CharSequence editorText = editor.getDocument().getCharsSequence();
         char nextCharacter = editorText.charAt(caretOffset);
 
@@ -45,7 +45,7 @@ public class TabOutActionHandler extends EditorWriteActionHandler {
         // column; else, delegate the call to the original EditorWriteActionHandler got restore
         // regular tab key functionality.
         if (isTabOverTarget(nextCharacter)) {
-            moveCaret(currentCaret, caretOffset + 1);
+            moveCaret(editorCaret, caretOffset + 1);
         } else {
             originalEditorWriteActionHandler.doExecute(editor, caret, dataContext);
         }
@@ -59,6 +59,7 @@ public class TabOutActionHandler extends EditorWriteActionHandler {
      */
     private static boolean isTabOverTarget(char character) {
         return Arrays.asList(TAB_OVER_TARGETS).contains(character);
+
     }
 
     /**
