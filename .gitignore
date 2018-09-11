@@ -1,5 +1,10 @@
 .DS_Store
 .gradle/
 .idea/
-build/
 out/
+/build/classes
+/build/tmp
+/build/distributions
+/build/patchedPluginXmlFiles
+/build/idea-sandbox
+/build/resources
