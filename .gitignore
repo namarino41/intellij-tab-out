@@ -2,9 +2,9 @@
 .gradle/
 .idea/
 out/
-build/classes/
-build/tmp/
-build/distributions/
-build/patchedPluginXmlFiles/
-build/idea-sandbox/
-build/resources/
+/build/classes/
+/build/tmp/
+/build/distributions/
+/build/patchedPluginXmlFiles/
+/build/idea-sandbox/
+/build/resources/
